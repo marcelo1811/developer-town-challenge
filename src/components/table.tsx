@@ -23,13 +23,7 @@ const Table = <T,>({
   error,
   errorMessage = "Fail to retrieve data",
 }: TableProps<T>) => {
-  return loading ? (
-    <Spinner />
-  ) : error ? (
-    <div>
-      <p>{errorMessage}</p>
-    </div>
-  ) : (
+  return (
     <table>
       <thead>
         <tr>
@@ -39,13 +33,27 @@ const Table = <T,>({
         </tr>
       </thead>
       <tbody>
-        {rows.map((row) => (
-          <tr key={keyExtractor(row)}>
-            {columns.map(({ name }) => (
-              <td key={name as Key}>{row[name] as unknown as ReactNode}</td>
-            ))}
+        {loading ? (
+          <tr>
+            <td colSpan={columns.length}>
+              <Spinner />
+            </td>
           </tr>
-        ))}
+        ) : error ? (
+          <tr>
+            <td colSpan={columns.length}>
+              <p>{errorMessage}</p>
+            </td>
+          </tr>
+        ) : (
+          rows.map((row) => (
+            <tr key={keyExtractor(row)}>
+              {columns.map(({ name }) => (
+                <td key={name as Key}>{row[name] as unknown as ReactNode}</td>
+              ))}
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );
