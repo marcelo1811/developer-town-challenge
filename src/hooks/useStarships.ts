@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import swapiApiRoutes from "../constants";
 import { Starship } from "../types/starship";
 import useFetch from "./useFetch";
@@ -13,9 +14,16 @@ const useStarships = (page: number = 1) => {
   const { data, error, loading } = useFetch<ListStarshipsResponse>(
     swapiApiRoutes.listStarships(page)
   );
+  const [starships, setStarships] = useState<Starship[]>(data?.results || []);
+
+  useEffect(() => {
+    if (data) {
+      setStarships(data.results);
+    }
+  }, [data, data?.results]);
 
   return {
-    starships: data?.results || [],
+    starships,
     error,
     loading,
   };
