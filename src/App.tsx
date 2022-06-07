@@ -1,4 +1,5 @@
 import React from "react";
+import { Table } from "./components";
 import { useStarships } from "./hooks";
 import { Starship } from "./types/starship";
 
@@ -34,24 +35,11 @@ function App() {
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            {columns.map(({ name, label }) => (
-              <th key={name}>{label}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {starships.map((starship) => (
-            <tr key={starship.url}>
-              {columns.map(({ name }) => (
-                <td key={name}>{starship[name]}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table
+        columns={columns}
+        rows={starships}
+        keyExtractor={(starship) => starship.name}
+      />
     </div>
   );
 }
