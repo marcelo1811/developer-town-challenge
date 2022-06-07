@@ -33,7 +33,8 @@ const Table = <T,>({
 }: TableProps<T>) => {
   const pageSize = 10;
   const isPreviousPageDisabled = currentPage === 1;
-  const isNextPageDisabled = currentPage * pageSize >= totalItems;
+  const isNextPageDisabled =
+    currentPage * pageSize >= totalItems || rows.length < pageSize;
 
   return (
     <table>

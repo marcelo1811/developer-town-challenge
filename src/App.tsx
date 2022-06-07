@@ -43,10 +43,22 @@ function App() {
     starshipManufacturers,
     handleClickPreviousPage,
     handleClickNextPage,
+    currentPage,
+    totalItems,
   } = useStarships();
 
   return (
     <div>
+      <h1>Starships</h1>
+      <h2>Manufacturers</h2>
+      <Select onChange={handleChangeSelectedManufacturer}>
+        <option value="">All</option>
+        {starshipManufacturers.map((manufacturer) => (
+          <option key={manufacturer} value={manufacturer}>
+            {manufacturer}
+          </option>
+        ))}
+      </Select>
       <Table
         columns={columns}
         rows={starships}
@@ -56,15 +68,9 @@ function App() {
         errorMessage="Fail to retrieve starships"
         onClickNextPage={handleClickNextPage}
         onClickPreviousPage={handleClickPreviousPage}
+        totalItems={totalItems}
+        currentPage={currentPage}
       />
-      <Select onChange={handleChangeSelectedManufacturer}>
-        <option value="">All</option>
-        {starshipManufacturers.map((manufacturer) => (
-          <option key={manufacturer} value={manufacturer}>
-            {manufacturer}
-          </option>
-        ))}
-      </Select>
     </div>
   );
 }

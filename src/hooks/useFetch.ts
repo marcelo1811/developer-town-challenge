@@ -6,6 +6,12 @@ interface UseFetchResult<ResultType> {
   loading: boolean;
 }
 
+type Cache = {
+  [key: string]: any;
+};
+
+const cache: Cache = {};
+
 const useFetch = <ResultType>(url: string): UseFetchResult<ResultType> => {
   const [data, setData] = useState<ResultType | null>(null);
   const [error, setError] = useState<any>(false);
@@ -13,22 +19,28 @@ const useFetch = <ResultType>(url: string): UseFetchResult<ResultType> => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(url)
-      .then(async (res) => {
-        const data = await res.json();
-        if (res.ok) {
-          setError(false);
-          setData(data);
-        } else {
-          throw new Error(data);
-        }
-      })
-      .catch((error) => {
-        setError(true);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (cache[url]) {
+      setData(cache[url]);
+      setLoading(false);
+    } else {
+      fetch(url)
+        .then(async (res) => {
+          const data = await res.json();
+          if (res.ok) {
+            cache[url] = data;
+            setError(false);
+            setData(data);
+          } else {
+            throw new Error(data);
+          }
+        })
+        .catch((error) => {
+          setError(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, [url]);
 
   return { data, error, loading };

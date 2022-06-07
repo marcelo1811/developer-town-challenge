@@ -30,16 +30,19 @@ const useStarships = (initialPage: number = 1) => {
     useState<Starship[]>(starships);
 
   useEffect(() => {
-    const newStarships = starships.filter((starship) =>
+    const newFilteredStarships = starships.filter((starship) =>
       starship.manufacturer.includes(selectedManufacturer)
     );
-    setFilteredStarships(newStarships);
+    setFilteredStarships(newFilteredStarships);
   }, [selectedManufacturer, starships]);
 
   useEffect(() => {
     if (listStarshipsResponse) {
-      setStarships(listStarshipsResponse.results);
-      setTotalItems(listStarshipsResponse.count);
+      const { results: newStarships, count } = listStarshipsResponse;
+      if (newStarships.length) {
+        setStarships(newStarships);
+        setTotalItems(count);
+      }
     }
   }, [listStarshipsResponse, listStarshipsResponse?.results]);
 

@@ -1,0 +1,11 @@
+{
+  "conventionalCommits.scopes": [
+    "hooks",
+    "home",
+    "homePage",
+    "app",
+    "components",
+    "table",
+    "useFetch"
+  ]
+}
