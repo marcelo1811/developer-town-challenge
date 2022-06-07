@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { SelectOption } from "../components/Select";
 import swapiApiRoutes from "../constants";
 import { Starship } from "../types/starship";
+import { extractManufacturersFromStarships } from "../utils";
 import useFetch from "./useFetch";
 
 interface ListStarshipsResponse {
@@ -15,6 +17,16 @@ const useStarships = (page: number = 1) => {
     swapiApiRoutes.listStarships(page)
   );
   const [starships, setStarships] = useState<Starship[]>(data?.results || []);
+  const [selectedManufacturer, setSelectedManufacturer] = useState("");
+  const [filteredStarships, setFilteredStarships] =
+    useState<Starship[]>(starships);
+
+  useEffect(() => {
+    const newStarships = starships.filter((starship) =>
+      starship.manufacturer.includes(selectedManufacturer)
+    );
+    setFilteredStarships(newStarships);
+  }, [selectedManufacturer, starships]);
 
   useEffect(() => {
     if (data) {
@@ -22,10 +34,25 @@ const useStarships = (page: number = 1) => {
     }
   }, [data, data?.results]);
 
+  const handleChangeManufacturer = (value: string) => {
+    setSelectedManufacturer(value);
+  };
+
+  const manufacturerOptions: SelectOption[] = useMemo(() => {
+    const manufacturers = extractManufacturersFromStarships(starships);
+    return manufacturers.map((manufacturer) => ({
+      value: manufacturer,
+      label: manufacturer,
+    }));
+  }, [starships]);
+
   return {
-    starships,
+    starships: filteredStarships,
     error,
     loading,
+    handleChangeManufacturer,
+    selectedManufacturer,
+    manufacturerOptions,
   };
 };
 

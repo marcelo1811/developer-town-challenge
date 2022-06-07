@@ -1,9 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
 import { Table, Select } from "./components";
-import { SelectOption } from "./components/Select";
 import { useStarships } from "./hooks";
 import { Starship } from "./types/starship";
-import { extractManufacturersFromStarships } from "./utils";
 
 interface StarshipTableColumn {
   name: keyof Starship;
@@ -38,35 +35,19 @@ const columns: StarshipTableColumn[] = [
 ];
 
 function App() {
-  const { starships, error, loading } = useStarships();
-  const [selectedManufacturer, setSelectedManufacturer] = useState("");
-  const [filteredStarships, setFilteredStarships] =
-    useState<Starship[]>(starships);
-
-  useEffect(() => {
-    const newStarships = starships.filter((starship) =>
-      starship.manufacturer.includes(selectedManufacturer)
-    );
-    setFilteredStarships(newStarships);
-  }, [selectedManufacturer, starships]);
-
-  const handleChangeManufacturer = (value: string) => {
-    setSelectedManufacturer(value);
-  };
-
-  const manufacturerOptions: SelectOption[] = useMemo(() => {
-    const manufacturers = extractManufacturersFromStarships(starships);
-    return manufacturers.map((manufacturer) => ({
-      value: manufacturer,
-      label: manufacturer,
-    }));
-  }, [starships]);
+  const {
+    starships,
+    error,
+    loading,
+    handleChangeManufacturer,
+    manufacturerOptions,
+  } = useStarships();
 
   return (
     <div>
       <Table
         columns={columns}
-        rows={filteredStarships}
+        rows={starships}
         keyExtractor={(starship) => starship.name}
       />
       <Select
