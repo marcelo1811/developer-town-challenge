@@ -8,7 +8,7 @@ interface UseFetchResult<ResultType> {
 
 const useFetch = <ResultType>(url: string): UseFetchResult<ResultType> => {
   const [data, setData] = useState<ResultType | null>(null);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<any>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const useFetch = <ResultType>(url: string): UseFetchResult<ResultType> => {
         setData(data);
       })
       .catch((error) => {
-        setError(error);
+        setError(true);
       })
       .finally(() => {
         setLoading(false);

@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { SelectOption } from "../components/Select";
 import swapiApiRoutes from "../constants";
 import { Starship } from "../types/starship";
 import { extractManufacturersFromStarships } from "../utils";
@@ -34,25 +33,21 @@ const useStarships = (page: number = 1) => {
     }
   }, [data, data?.results]);
 
-  const handleChangeManufacturer = (value: string) => {
+  const handleChangeSelectedManufacturer = (value: string) => {
     setSelectedManufacturer(value);
   };
 
-  const manufacturerOptions: SelectOption[] = useMemo(() => {
-    const manufacturers = extractManufacturersFromStarships(starships);
-    return manufacturers.map((manufacturer) => ({
-      value: manufacturer,
-      label: manufacturer,
-    }));
+  const starshipManufacturers: string[] = useMemo(() => {
+    return extractManufacturersFromStarships(starships);
   }, [starships]);
 
   return {
     starships: filteredStarships,
     error,
     loading,
-    handleChangeManufacturer,
+    handleChangeSelectedManufacturer,
     selectedManufacturer,
-    manufacturerOptions,
+    starshipManufacturers,
   };
 };
 

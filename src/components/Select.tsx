@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 export interface SelectOption {
   value: string;
@@ -6,21 +6,12 @@ export interface SelectOption {
 }
 
 interface SelectProps {
-  options: SelectOption[];
+  children: ReactNode;
   onChange: (value: string) => void;
 }
 
-const Select = ({ options, onChange }: SelectProps) => {
-  return (
-    <select onChange={(e) => onChange(e.target.value)}>
-      <option value="">All</option>
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
-  );
+const Select = ({ children, onChange }: SelectProps) => {
+  return <select onChange={(e) => onChange(e.target.value)}>{children}</select>;
 };
 
 export default Select;

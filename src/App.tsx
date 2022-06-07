@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Table, Select } from "./components";
+import { SelectOption } from "./components/Select";
 import { useStarships } from "./hooks";
 import { Starship } from "./types/starship";
 
@@ -39,8 +41,8 @@ function App() {
     starships,
     error,
     loading,
-    handleChangeManufacturer,
-    manufacturerOptions,
+    handleChangeSelectedManufacturer,
+    starshipManufacturers,
   } = useStarships();
 
   return (
@@ -49,11 +51,18 @@ function App() {
         columns={columns}
         rows={starships}
         keyExtractor={(starship) => starship.name}
+        loading={loading}
+        error={error}
+        errorMessage="Fail to retrieve starships"
       />
-      <Select
-        options={manufacturerOptions}
-        onChange={handleChangeManufacturer}
-      />
+      <Select onChange={handleChangeSelectedManufacturer}>
+        <option value="">All</option>
+        {starshipManufacturers.map((manufacturer) => (
+          <option key={manufacturer} value={manufacturer}>
+            {manufacturer}
+          </option>
+        ))}
+      </Select>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React, { Key, ReactNode } from "react";
+import Spinner from "./Spinner";
 
 interface TableColumn<T> {
   name: keyof T;
@@ -9,10 +10,26 @@ interface TableProps<T> {
   columns: TableColumn<T>[];
   rows: T[];
   keyExtractor: (row: T) => string;
+  loading?: boolean;
+  error?: string | null;
+  errorMessage?: string;
 }
 
-const Table = <T,>({ columns, rows, keyExtractor }: TableProps<T>) => {
-  return (
+const Table = <T,>({
+  columns,
+  rows,
+  keyExtractor,
+  loading,
+  error,
+  errorMessage = "Fail to retrieve data",
+}: TableProps<T>) => {
+  return loading ? (
+    <Spinner />
+  ) : error ? (
+    <div>
+      <p>{errorMessage}</p>
+    </div>
+  ) : (
     <table>
       <thead>
         <tr>
