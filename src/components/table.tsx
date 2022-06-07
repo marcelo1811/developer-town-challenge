@@ -15,6 +15,8 @@ interface TableProps<T> {
   errorMessage?: string;
   onClickNextPage?: () => void;
   onClickPreviousPage?: () => void;
+  currentPage: number;
+  totalItems: number;
 }
 
 const Table = <T,>({
@@ -26,7 +28,13 @@ const Table = <T,>({
   errorMessage = "Fail to retrieve data",
   onClickNextPage,
   onClickPreviousPage,
+  currentPage,
+  totalItems,
 }: TableProps<T>) => {
+  const pageSize = 10;
+  const isPreviousPageDisabled = currentPage === 1;
+  const isNextPageDisabled = currentPage * pageSize >= totalItems;
+
   return (
     <table>
       <thead>
@@ -62,8 +70,16 @@ const Table = <T,>({
       <tfoot>
         <tr>
           <td colSpan={columns.length}>
-            <button onClick={onClickPreviousPage}>previous</button>
-            <button onClick={onClickNextPage}>next</button>
+            <button
+              onClick={onClickPreviousPage}
+              disabled={isPreviousPageDisabled}>
+              previous
+            </button>
+            <button onClick={onClickNextPage} disabled={isNextPageDisabled}>
+              next
+            </button>
+            <p>{currentPage * pageSize}</p>
+            <p>{totalItems}</p>
           </td>
         </tr>
       </tfoot>

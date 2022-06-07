@@ -9,14 +9,22 @@ interface ListStarshipsResponse {
   next: string | null;
   previous: string | null;
   results: Starship[];
+  totalItems: number;
+  currentPage: number;
 }
 
-const useStarships = (initialPageNumber: number = 1) => {
-  const [pageNumber, setPageNumber] = useState(initialPageNumber);
-  const { data, error, loading } = useFetch<ListStarshipsResponse>(
-    swapiApiRoutes.listStarships(pageNumber)
+const useStarships = (initialPage: number = 1) => {
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [totalItems, setTotalItems] = useState(0);
+
+  const {
+    data: listStarshipsResponse,
+    error,
+    loading,
+  } = useFetch<ListStarshipsResponse>(
+    swapiApiRoutes.listStarships(currentPage)
   );
-  const [starships, setStarships] = useState<Starship[]>(data?.results || []);
+  const [starships, setStarships] = useState<Starship[]>([]);
   const [selectedManufacturer, setSelectedManufacturer] = useState("");
   const [filteredStarships, setFilteredStarships] =
     useState<Starship[]>(starships);
@@ -29,10 +37,11 @@ const useStarships = (initialPageNumber: number = 1) => {
   }, [selectedManufacturer, starships]);
 
   useEffect(() => {
-    if (data) {
-      setStarships(data.results);
+    if (listStarshipsResponse) {
+      setStarships(listStarshipsResponse.results);
+      setTotalItems(listStarshipsResponse.count);
     }
-  }, [data, data?.results]);
+  }, [listStarshipsResponse, listStarshipsResponse?.results]);
 
   const handleChangeSelectedManufacturer = (value: string) => {
     setSelectedManufacturer(value);
@@ -43,11 +52,11 @@ const useStarships = (initialPageNumber: number = 1) => {
   }, [starships]);
 
   const handleClickNextPage = () => {
-    setPageNumber(pageNumber + 1);
+    setCurrentPage(currentPage + 1);
   };
 
   const handleClickPreviousPage = () => {
-    setPageNumber(pageNumber - 1);
+    setCurrentPage(currentPage - 1);
   };
 
   return {
@@ -59,6 +68,8 @@ const useStarships = (initialPageNumber: number = 1) => {
     starshipManufacturers,
     handleClickNextPage,
     handleClickPreviousPage,
+    currentPage,
+    totalItems,
   };
 };
 
