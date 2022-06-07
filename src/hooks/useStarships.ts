@@ -11,9 +11,10 @@ interface ListStarshipsResponse {
   results: Starship[];
 }
 
-const useStarships = (page: number = 1) => {
+const useStarships = (initialPageNumber: number = 1) => {
+  const [pageNumber, setPageNumber] = useState(initialPageNumber);
   const { data, error, loading } = useFetch<ListStarshipsResponse>(
-    swapiApiRoutes.listStarships(page)
+    swapiApiRoutes.listStarships(pageNumber)
   );
   const [starships, setStarships] = useState<Starship[]>(data?.results || []);
   const [selectedManufacturer, setSelectedManufacturer] = useState("");
@@ -41,6 +42,14 @@ const useStarships = (page: number = 1) => {
     return extractManufacturersFromStarships(starships);
   }, [starships]);
 
+  const handleClickNextPage = () => {
+    setPageNumber(pageNumber + 1);
+  };
+
+  const handleClickPreviousPage = () => {
+    setPageNumber(pageNumber - 1);
+  };
+
   return {
     starships: filteredStarships,
     error,
@@ -48,6 +57,8 @@ const useStarships = (page: number = 1) => {
     handleChangeSelectedManufacturer,
     selectedManufacturer,
     starshipManufacturers,
+    handleClickNextPage,
+    handleClickPreviousPage,
   };
 };
 

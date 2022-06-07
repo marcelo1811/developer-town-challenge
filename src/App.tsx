@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import { Table, Select } from "./components";
-import { SelectOption } from "./components/Select";
 import { useStarships } from "./hooks";
 import { Starship } from "./types/starship";
 
@@ -43,6 +41,8 @@ function App() {
     loading,
     handleChangeSelectedManufacturer,
     starshipManufacturers,
+    handleClickPreviousPage,
+    handleClickNextPage,
   } = useStarships();
 
   return (
@@ -54,6 +54,8 @@ function App() {
         loading={loading}
         error={error}
         errorMessage="Fail to retrieve starships"
+        onClickNextPage={handleClickNextPage}
+        onClickPreviousPage={handleClickPreviousPage}
       />
       <Select onChange={handleChangeSelectedManufacturer}>
         <option value="">All</option>

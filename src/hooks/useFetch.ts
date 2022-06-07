@@ -14,9 +14,14 @@ const useFetch = <ResultType>(url: string): UseFetchResult<ResultType> => {
   useEffect(() => {
     setLoading(true);
     fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok) {
+          setError(false);
+          setData(data);
+        } else {
+          throw new Error(data);
+        }
       })
       .catch((error) => {
         setError(true);
