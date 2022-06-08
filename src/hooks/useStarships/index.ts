@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import swapiApiRoutes from "../../constants";
+import { swapiApiRoutes } from "../../constants";
 import { Starship } from "../../types/starship";
 import { extractManufacturersFromStarships } from "../../utils";
 import removeDuplicates from "../../utils/removeDuplicates";

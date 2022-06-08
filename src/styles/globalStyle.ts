@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { colors } from "../constants";
 
 export default createGlobalStyle`
   *{
@@ -10,6 +11,11 @@ export default createGlobalStyle`
   }
   #root{
     margin:0 auto;
+    --primary: ${colors.primary};
+    --secondary: ${colors.secondary};
+    --white: ${colors.white};
+    --black: ${colors.black};
+    --gray: ${colors.gray};
   }
 
   body {

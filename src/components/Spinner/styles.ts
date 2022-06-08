@@ -12,7 +12,7 @@ const Rotate = keyframes`
 export const MySpinner = styled.div`
   width: 50px;
   height: 50px;
-  border: ${(props) => props.color || "black"} solid 10px;
+  border: ${(props) => props.color || "black"} solid 5px;
   border-radius: 50%;
   border-left-color: transparent;
   animation: ${Rotate} 2s linear infinite;

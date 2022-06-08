@@ -1,5 +1,6 @@
 import React, { Key, ReactNode } from "react";
 import Spinner from "./../Spinner";
+import { PaginationContainer, SpinnerWrapper, StyledTable } from "./styles";
 
 interface TableColumn<T> {
   name: keyof T;
@@ -37,7 +38,7 @@ const Table = <T,>({
     currentPage * pageSize >= totalItems || rows.length < pageSize;
 
   return (
-    <table>
+    <StyledTable cellSpacing={1}>
       <thead>
         <tr>
           {columns.map(({ name, label }) => (
@@ -49,7 +50,10 @@ const Table = <T,>({
         {loading ? (
           <tr>
             <td colSpan={columns.length}>
-              <Spinner />
+              <SpinnerWrapper>
+                <Spinner />
+                <p>Loading...</p>
+              </SpinnerWrapper>
             </td>
           </tr>
         ) : error ? (
@@ -71,22 +75,27 @@ const Table = <T,>({
       <tfoot>
         <tr>
           <td colSpan={columns.length}>
-            <button
-              onClick={onClickPreviousPage}
-              disabled={isPreviousPageDisabled}>
-              previous
-            </button>
-            <button onClick={onClickNextPage} disabled={isNextPageDisabled}>
-              next
-            </button>
-            <p>
-              current page: {currentPage} / {Math.ceil(totalItems / pageSize)}
-            </p>
-            <p>total items: {totalItems}</p>
+            <PaginationContainer>
+              <p>
+                Showing {1 + (currentPage - 1) * 10} to {currentPage * 10} of{" "}
+                {totalItems} entries
+              </p>
+              <button
+                onClick={onClickPreviousPage}
+                disabled={isPreviousPageDisabled}>
+                previous
+              </button>
+              <p>
+                {currentPage} / {Math.ceil(totalItems / pageSize)}
+              </p>
+              <button onClick={onClickNextPage} disabled={isNextPageDisabled}>
+                next
+              </button>
+            </PaginationContainer>
           </td>
         </tr>
       </tfoot>
-    </table>
+    </StyledTable>
   );
 };
 
