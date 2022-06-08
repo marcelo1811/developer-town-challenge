@@ -79,8 +79,10 @@ const Table = <T,>({
             <button onClick={onClickNextPage} disabled={isNextPageDisabled}>
               next
             </button>
-            <p>{currentPage * pageSize}</p>
-            <p>{totalItems}</p>
+            <p>
+              current page: {currentPage} / {Math.ceil(totalItems / pageSize)}
+            </p>
+            <p>total items: {totalItems}</p>
           </td>
         </tr>
       </tfoot>

@@ -22,6 +22,7 @@ const useFetch = <ResultType>(url: string): UseFetchResult<ResultType> => {
     if (cache[url]) {
       setData(cache[url]);
       setLoading(false);
+      setError(false);
     } else {
       fetch(url)
         .then(async (res) => {
