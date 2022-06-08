@@ -1,17 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import swapiApiRoutes from "../constants";
-import { Starship } from "../types/starship";
-import { extractManufacturersFromStarships } from "../utils";
-import removeDuplicates from "../utils/removeDuplicates";
-import useFetch from "./useFetch";
+import swapiApiRoutes from "../../constants";
+import { Starship } from "../../types/starship";
+import { extractManufacturersFromStarships } from "../../utils";
+import removeDuplicates from "../../utils/removeDuplicates";
+import useFetch from "../useFetch";
 
-interface ListStarshipsResponse {
+export interface ListStarshipsResponse {
   count: number;
   next: string | null;
   previous: string | null;
   results: Starship[];
-  totalItems: number;
-  currentPage: number;
 }
 
 const useStarships = (initialPage: number = 1) => {
@@ -24,7 +22,7 @@ const useStarships = (initialPage: number = 1) => {
     loading,
   } = useFetch<ListStarshipsResponse>(
     swapiApiRoutes.listStarships(currentPage)
-  );
+  ) || {};
   const [starships, setStarships] = useState<Starship[]>([]);
   const [selectedManufacturer, setSelectedManufacturer] = useState("");
   const [filteredStarships, setFilteredStarships] =
