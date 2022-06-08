@@ -53,9 +53,15 @@ const useStarships = (initialPage: number = 1) => {
         setTotalItems(count);
       }
     }
-  }, [currentPage, listStarshipsResponse, listStarshipsResponse?.results]);
+  }, [
+    currentPage,
+    listStarshipsResponse,
+    listStarshipsResponse?.results,
+    starships.length,
+  ]);
 
   const handleChangeSelectedManufacturer = (value: string) => {
+    setCurrentPage(1);
     setSelectedManufacturer(value);
   };
 

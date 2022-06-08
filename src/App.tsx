@@ -61,7 +61,7 @@ function App() {
       </Select>
       <Table
         columns={columns}
-        rows={starships}
+        rows={starships.slice((currentPage - 1) * 10, currentPage * 10)}
         keyExtractor={(starship) => starship.name}
         loading={loading}
         error={error}
