@@ -1,5 +1,5 @@
 import React, { Key, ReactNode } from "react";
-import Spinner from "./Spinner";
+import Spinner from "./../Spinner";
 
 interface TableColumn<T> {
   name: keyof T;
