@@ -9,7 +9,7 @@ const Rotate = keyframes`
   }
 `;
 
-export const MySpinner = styled.div`
+export const Spinner = styled.div`
   width: 50px;
   height: 50px;
   border: ${(props) => props.color || "black"} solid 5px;

@@ -1,6 +1,7 @@
 import { Table, Select } from "../../components";
 import { useStarships } from "../../hooks";
 import { Starship } from "../../types/starship";
+import { Container, OptionsContainer } from "./styles";
 
 interface StarshipTableColumn {
   name: keyof Starship;
@@ -45,20 +46,23 @@ function HomePage() {
     handleClickNextPage,
     currentPage,
     totalItems,
+    selectedManufacturer,
   } = useStarships();
 
   return (
-    <div>
-      <h1>Starships</h1>
-      <h2>Manufacturers</h2>
-      <Select onChange={handleChangeSelectedManufacturer}>
-        <option value="">All</option>
-        {starshipManufacturers.map((manufacturer) => (
-          <option key={manufacturer} value={manufacturer}>
-            {manufacturer}
-          </option>
-        ))}
-      </Select>
+    <Container>
+      <h1>Starships 🚀</h1>
+      <OptionsContainer>
+        <p>Choose a manufacturer</p>
+        <Select onChange={handleChangeSelectedManufacturer}>
+          <option value="">All</option>
+          {starshipManufacturers.map((manufacturer) => (
+            <option key={manufacturer} value={manufacturer}>
+              {manufacturer}
+            </option>
+          ))}
+        </Select>
+      </OptionsContainer>
       <Table
         columns={columns}
         rows={starships.slice((currentPage - 1) * 10, currentPage * 10)}
@@ -70,8 +74,9 @@ function HomePage() {
         onClickPreviousPage={handleClickPreviousPage}
         totalItems={totalItems}
         currentPage={currentPage}
+        highlightWord={selectedManufacturer}
       />
-    </div>
+    </Container>
   );
 }
 

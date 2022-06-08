@@ -3,10 +3,7 @@ import styled from "styled-components";
 
 export const StyledTable = styled.table<HTMLProps<HTMLTableElement>>`
   border-collapse: collapse;
-  width: 90%;
-  overflow-x: scroll;
-  height: 80vh;
-
+  width: 100%;
   thead {
     background: var(--primary);
     color: var(--white);
@@ -45,7 +42,7 @@ export const StyledTable = styled.table<HTMLProps<HTMLTableElement>>`
 export const SpinnerWrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 30vh;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -53,10 +50,26 @@ export const SpinnerWrapper = styled.div`
 `;
 
 export const PaginationContainer = styled.div`
-  height: 100%;
   padding: 15px;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
   gap: 20px;
+`;
+
+export const TableCell = styled.div``;
+
+export const Container = styled.div`
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+export const TableContainer = styled.div`
+  width: 100%;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
 `;

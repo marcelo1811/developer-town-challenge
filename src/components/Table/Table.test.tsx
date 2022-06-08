@@ -17,8 +17,10 @@ describe("Table component", () => {
     expect(screen.getByText("Name")).toBeInTheDocument();
     expect(screen.getByText("John")).toBeInTheDocument();
     expect(screen.getByText("Marcelo")).toBeInTheDocument();
-    expect(screen.getByText(/current page: 1/i)).toBeInTheDocument();
-    expect(screen.getByText(/total items: 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/1 \/ 1/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Showing 1 to 10 of 1 entries/i)
+    ).toBeInTheDocument();
   });
 
   it('should change page when "Next" button is clicked', () => {
