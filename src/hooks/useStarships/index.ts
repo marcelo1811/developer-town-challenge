@@ -29,9 +29,12 @@ const useStarships = (initialPage: number = 1) => {
     useState<Starship[]>(starships);
 
   useEffect(() => {
-    const newFilteredStarships = starships.filter((starship) =>
-      starship.manufacturer.includes(selectedManufacturer)
-    );
+    let newFilteredStarships = starships;
+    if (selectedManufacturer) {
+      newFilteredStarships = starships.filter((starship) =>
+        starship.manufacturer.split(", ").includes(selectedManufacturer)
+      );
+    }
     setFilteredStarships(newFilteredStarships);
   }, [selectedManufacturer, starships]);
 

@@ -47,6 +47,27 @@ const Table = <T,>({
   const isNextPageDisabled =
     currentPage * pageSize >= totalItems || rows.length < pageSize;
 
+  const transformCell = (cellValue: string): ReactNode => {
+    return cellValue
+      ?.replaceAll(", ", ",")
+      ?.split(",")
+      .map<ReactNode>((text) => {
+        if (text.includes("http")) {
+          return (
+            <a href={text} target="_blank" rel="noreferrer" key={text}>
+              {text}
+            </a>
+          );
+        }
+        if (highlightWord && text.includes(highlightWord)) {
+          return <strong key={text}>{text}</strong>;
+        } else {
+          return text;
+        }
+      })
+      .reduce((prev, curr) => [prev, ", ", curr]);
+  };
+
   return (
     <Container>
       <TableContainer>
@@ -79,18 +100,7 @@ const Table = <T,>({
                 <tr key={keyExtractor(row)}>
                   {columns.map(({ name }) => (
                     <td key={name as Key}>
-                      <TableCell>
-                        {(row[name] as unknown as string)
-                          ?.split(", ")
-                          .map<ReactNode>((item) => {
-                            if (highlightWord && item.includes(highlightWord)) {
-                              return <strong>{item}</strong>;
-                            } else {
-                              return item;
-                            }
-                          })
-                          .reduce((prev, curr) => [prev, ", ", curr])}
-                      </TableCell>
+                      <TableCell>{transformCell(String(row[name]))}</TableCell>
                     </td>
                   ))}
                 </tr>

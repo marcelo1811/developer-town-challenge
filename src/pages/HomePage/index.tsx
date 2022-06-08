@@ -26,8 +26,8 @@ const columns: StarshipTableColumn[] = [
     label: "Cargo Capacity",
   },
   {
-    name: "consumables",
-    label: "Consumables",
+    name: "url",
+    label: "url",
   },
   {
     name: "manufacturer",

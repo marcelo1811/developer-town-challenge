@@ -71,5 +71,4 @@ export const TableContainer = styled.div`
   width: 100%;
   overflow-x: auto;
   display: flex;
-  justify-content: center;
 `;
