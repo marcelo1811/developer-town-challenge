@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import swapiApiRoutes from "../constants";
 import { Starship } from "../types/starship";
 import { extractManufacturersFromStarships } from "../utils";
+import removeDuplicates from "../utils/removeDuplicates";
 import useFetch from "./useFetch";
 
 interface ListStarshipsResponse {
@@ -38,13 +39,21 @@ const useStarships = (initialPage: number = 1) => {
 
   useEffect(() => {
     if (listStarshipsResponse) {
-      const { results: newStarships, count } = listStarshipsResponse;
-      if (newStarships.length) {
-        setStarships(newStarships);
+      const { results, count } = listStarshipsResponse;
+      const itemsPerPage = 10;
+      const isNotCached = itemsPerPage * currentPage > starships.length;
+      if (isNotCached) {
+        setStarships((prevState) => {
+          const newStarships = removeDuplicates<Starship>([
+            ...prevState,
+            ...results,
+          ]);
+          return newStarships;
+        });
         setTotalItems(count);
       }
     }
-  }, [listStarshipsResponse, listStarshipsResponse?.results]);
+  }, [currentPage, listStarshipsResponse, listStarshipsResponse?.results]);
 
   const handleChangeSelectedManufacturer = (value: string) => {
     setSelectedManufacturer(value);

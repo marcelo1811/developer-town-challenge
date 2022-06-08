@@ -1,4 +1,5 @@
 import { Starship } from "../types/starship";
+import removeDuplicates from "./removeDuplicates";
 
 const extractManufacturersFromStarships = (starships: Starship[]) => {
   const starshipManufacturers = starships.map((starship) =>
@@ -8,7 +9,7 @@ const extractManufacturersFromStarships = (starships: Starship[]) => {
     manufacturer.map((manufacturer) => manufacturer.trim())
   );
 
-  return Array.from(new Set(manufacturers));
+  return removeDuplicates<string>(manufacturers);
 };
 
 export default extractManufacturersFromStarships;
